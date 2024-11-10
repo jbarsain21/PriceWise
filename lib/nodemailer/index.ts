@@ -3,6 +3,7 @@
 import { EmailContent, EmailProductInfo, NotificationType } from '@/types';
 import nodemailer from 'nodemailer';
 
+//Represent the different types of emails that we will send
 const Notification = {
   WELCOME: 'WELCOME',
   CHANGE_OF_STOCK: 'CHANGE_OF_STOCK',
@@ -90,6 +91,8 @@ const transporter = nodemailer.createTransport({
   },
   maxConnections: 1
 })
+
+
 
 export const sendEmail = async (emailContent: EmailContent, sendTo: string[]) => {
   const mailOptions = {

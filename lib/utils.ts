@@ -15,6 +15,7 @@ export function extractPrice(...elements: any) {
     const priceText = element.text().trim();
 
     if(priceText) {
+      /**this regular expression is used to remove any character in a string that is not a digit or a . */
       const cleanPrice = priceText.replace(/[^\d.]/g, '');
 
       let firstPrice; 

@@ -15,7 +15,7 @@ const Modal = ({ productId }: Props) => {
   const [email, setEmail] = useState('');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault();   //Prevents from reloading the page
     setIsSubmitting(true);
 
     await addUserEmailToProduct(productId, email);
@@ -50,6 +50,7 @@ const Modal = ({ productId }: Props) => {
               <div className="fixed inset-0" aria-hidden="true" />
             </Transition.Child>
 
+            /**Span element to put the modal in the middle of the screen */
             <span
               className="inline-block h-screen align-middle"
               aria-hidden="true"

@@ -2,6 +2,7 @@
 import { scrapeAndStoreProduct } from "@/lib/actions";
 import { FormEvent, useState } from "react";
 
+/**Function to check if the url entered by the user is a valid url or not*/
 const isValidAmazonProductURL = (url: string) => {
     try {
       const parsedURL = new URL(url);
@@ -26,6 +27,7 @@ const Searchbar = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        /**The default behavior of browser, once form is submitted is to reload the page, we dont want that to happen in our NextJs APP */
         event.preventDefault();
     
         const isValidLink = isValidAmazonProductURL(searchPrompt);

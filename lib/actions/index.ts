@@ -21,7 +21,8 @@ export async function scrapeAndStoreProduct(productUrl: string) {
       let product = scrapedProduct;
   
       const existingProduct = await Product.findOne({ url: scrapedProduct.url });
-  
+      
+      /**If the product with the same url exists, we need to update its price history */
       if(existingProduct) {
         const updatedPriceHistory: any = [
           ...existingProduct.priceHistory,
@@ -36,13 +37,14 @@ export async function scrapeAndStoreProduct(productUrl: string) {
           averagePrice: getAveragePrice(updatedPriceHistory),
         }
       }
-  
+      /**If product does not exits, create an instance of the product in the DB */
       const newProduct = await Product.findOneAndUpdate(
         { url: scrapedProduct.url },
         product,
         { upsert: true, new: true }
       );
-  
+      
+      /**If we dont revalidate the path, its not going to update and it will be stuck in cache */
       revalidatePath(`/products/${newProduct._id}`);
     } catch (error: any) {
       throw new Error(`Failed to create/update product: ${error.message}`)
@@ -82,7 +84,8 @@ export async function getSimilarProducts(productId: string) {
       const currentProduct = await Product.findById(productId);
   
       if(!currentProduct) return null;
-  
+      
+      /**Find all products whose id is not equal to the id of the current product */
       const similarProducts = await Product.find({
         _id: { $ne: productId },
       }).limit(3);
